@@ -1,8 +1,13 @@
+'use client'
 
-export default function Home() {
+import Modal from "@/components/ui/Modal";
+
+export default function RootLayout() {
   return (
-   <p>
-     Admin Dashboard
-   </p>
+   <div className={'text-xl'} >
+     <Modal title={'test'} description={'test'} isOpen onClose={() => {}}>
+         Children
+     </Modal>
+   </div>
   )
 }
