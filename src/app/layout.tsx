@@ -4,6 +4,7 @@ import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import ReduxProvider from "@/redux/Provider";
 import ModalProvider from "@/providers/ModalProvider";
+import prismadb from "@/lib/prismadb";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,6 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
       <ClerkProvider>
           <html className={inter.className} lang="en">

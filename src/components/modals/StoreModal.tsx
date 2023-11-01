@@ -7,11 +7,16 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {useState} from "react";
+import axios from "axios";
+import {wrapInObject} from "@/lib/promiseWrap";
 
 const StoreModal = () => {
 
     const modal  = useAppSelector(state => selectModals(state));
     const dispatch = useAppDispatch();
+
+    const [loading, setLoading] = useState(false);
 
     const formSchema = z.object({
         name: z.string().min(1),
@@ -25,7 +30,14 @@ const StoreModal = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+        setLoading(true);
+        const {data, error} = await wrapInObject(axios.post('/api/stores', values));
+
+        if (error) {
+            console.log(error)
+        }
+
+        setLoading(false)
     }
 
     return (
@@ -43,7 +55,7 @@ const StoreModal = () => {
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder={'E-commerce'} {...field} />
+                                            <Input disabled={loading} placeholder={'E-commerce'} {...field} />
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>
@@ -52,8 +64,8 @@ const StoreModal = () => {
                                 name={'name'}
                                 control={form.control}/>
                             <div className={'pt-6 flex justify-end gap-2 items-center w-full'} >
-                                <Button variant={'outline'} onClick={() => dispatch(onClose(modal))} >Cancel</Button>
-                                <Button type={"submit"} >Continue</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={() => dispatch(onClose(modal))} >Cancel</Button>
+                                <Button disabled={loading} type={"submit"} >Continue</Button>
                             </div>
                         </form>
                     </Form>
