@@ -1,6 +1,5 @@
 'use client'
 
-import Modal from "@/components/ui/Modal";
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "@/redux/hooks";
 import {onOpen, selectModals} from "@/redux/features/modalSlice";
