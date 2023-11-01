@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
 import { wrapInObject } from "@/lib/promiseWrap";
+import { Store } from ".prisma/client";
 
 const StoreModal = () => {
   const modal = useAppSelector((state) => selectModals(state));
@@ -37,7 +38,7 @@ const StoreModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    const { data: dataPost, error: errorPost } = await wrapInObject(
+    const { data: dataPost, error: errorPost } = await wrapInObject<Store>(
       axios.post("/api/stores", values),
     );
 
@@ -45,7 +46,7 @@ const StoreModal = () => {
       console.log(errorPost);
     }
 
-    window.location.assign(`/${dataPost.id}`)
+    window.location.assign(`/${dataPost?.id}`);
 
     setLoading(false);
   };

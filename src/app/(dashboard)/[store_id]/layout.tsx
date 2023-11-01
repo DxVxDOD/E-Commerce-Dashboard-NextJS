@@ -3,6 +3,8 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { wrapInObject } from "@/lib/promiseWrap";
 import prismaDb from "@/lib/prismadb";
+import Navbar from "@/components/nav/Navbar";
+import { Store } from ".prisma/client";
 
 const DashboardLayout = async ({
   children,
@@ -13,20 +15,22 @@ const DashboardLayout = async ({
 }) => {
   const { userId } = auth();
 
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect("/sign-in");
 
-  const {data: storeData, error: storeError} = await wrapInObject(prismaDb.store.findFirst({
-    where: {
-      id: params.storeId,
-      userId
-    }
-  }))
+  const { data: storeData, error: storeError } = await wrapInObject<Store>(
+    prismaDb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    }),
+  );
 
-  if (storeError) redirect('/')
+  if (storeError) redirect("/");
 
   return (
     <>
-      <div>This will be a navbar</div>
+      <Navbar />
       {children}
     </>
   );

@@ -24,12 +24,14 @@ export const POST = async (req: Request) => {
     return new NextResponse("Name is required", { status: 400 });
   }
 
-  const {data: storeData, error: storeError} = await wrapInObject(prismaDb.store.create({
-    data: {
-      name,
-      userId,
-    },
-  }));
+  const { data: storeData, error: storeError } = await wrapInObject(
+    prismaDb.store.create({
+      data: {
+        name,
+        userId,
+      },
+    }),
+  );
 
   if (storeError) console.log(storeError);
   return NextResponse.json(storeData);
