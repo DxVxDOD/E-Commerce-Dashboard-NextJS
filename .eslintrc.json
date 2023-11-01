@@ -1,5 +1,5 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "prettier"],
   "no-restricted-imports": "off",
   "@typescript-eslint/no-restricted-imports": [
     "warn",
