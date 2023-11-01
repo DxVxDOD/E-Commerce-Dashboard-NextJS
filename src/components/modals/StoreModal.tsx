@@ -12,8 +12,7 @@ const StoreModal = () => {
             title={'Create Store'}
             description={'Add a new store to manage products and categories'}
             isOpen={modal.isOpen}
-            onClose={() => dispatch(onClose)}>
-
+            onClose={() => dispatch(onClose(modal))}>
         </Modal>
     )
 }

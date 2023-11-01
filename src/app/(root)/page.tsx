@@ -1,13 +1,22 @@
 'use client'
 
 import Modal from "@/components/ui/Modal";
+import {useEffect} from "react";
+import {useAppDispatch, useAppSelector} from "@/redux/hooks";
+import {onOpen, selectModals} from "@/redux/features/modalSlice";
 
 export default function RootLayout() {
-  return (
+
+    const modal = useAppSelector(state => selectModals(state));
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (!modal.isOpen) dispatch(onOpen(modal));
+    },[modal, onOpen])
+
+    return (
    <div className={'text-xl'} >
-     <Modal title={'test'} description={'test'} isOpen onClose={() => {}}>
-         Children
-     </Modal>
+       Root page
    </div>
   )
 }
