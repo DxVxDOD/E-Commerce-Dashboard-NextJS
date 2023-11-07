@@ -7,7 +7,7 @@ import { TStorePersonDetails } from "@/types/store";
 export const POST = async (req: Request) => {
   const { userId } = auth();
 
-  const { data: reqData, error: reqError } = await wrapInObject(req.json());
+  const { data: reqData, error: reqError } = await wrapInObject<TStorePersonDetails>(req.json());
 
   if (reqError) {
     console.log("[STORE_POST]", reqError);
@@ -18,7 +18,7 @@ export const POST = async (req: Request) => {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { name } = reqData;
+  const name = reqData?.name;
 
   if (!name) {
     return new NextResponse("Name is required", { status: 400 });

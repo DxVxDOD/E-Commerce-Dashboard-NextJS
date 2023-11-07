@@ -1,13 +1,15 @@
 'use client'
 
 import { ComponentPropsWithoutRef, useState } from "react";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Store } from ".prisma/client";
 import { useAppSelector } from "@/redux/hooks";
 import { selectModals } from "@/redux/features/modalSlice";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Store as StoreIcon } from "lucide-react";
+import { ChevronsUpDown, Store as StoreIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Command, CommandInput, CommandList } from "@/components/ui/command";
 
 type PopoverTriggerProps = ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -37,10 +39,26 @@ const StoreSwitcher = ({className, items = []}: StoreSwitcherProps) => {
   return (
     <Popover open={open} onOpenChange={setOpen} >
       <PopoverTrigger asChild >
-        <Button>
-          <StoreIcon/>
+        <Button
+        variant={'outline'}
+        size={"sm"}
+        role={'combobox'}
+        aria-expanded={open}
+        aria-label={'Select a store'}
+        className={cn('w-[200px] justify-between', className)}
+        >
+          <StoreIcon className={'mr-2 h-4 w-4'} />
+          Current Store
+          <ChevronsUpDown className={'ml-auto h-4 w-4 shrink-0 opacity-50'} />
         </Button>
       </PopoverTrigger>
+      <PopoverContent className={'w-[200px] p-0'} >
+        <Command>
+          <CommandList>
+            <CommandInput placeholder={'Search store....'} />
+          </CommandList>
+        </Command>
+      </PopoverContent>
     </Popover>
   )
 }

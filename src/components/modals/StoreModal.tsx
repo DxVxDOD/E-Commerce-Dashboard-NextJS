@@ -42,13 +42,12 @@ const StoreModal = () => {
       axios.post("/api/stores", values),
     );
 
-    if (errorPost) {
-      console.log(errorPost);
+    if (dataPost) {
+      window.location.assign(`/${dataPost?.id}`);
+      setLoading(false);
     }
 
-    window.location.assign(`/${dataPost?.id}`);
-
-    setLoading(false);
+    console.log(errorPost);
   };
 
   return (
