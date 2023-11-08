@@ -38,7 +38,7 @@ const StoreSwitcher = ({className, items = []}: StoreSwitcherProps) => {
     value: item.id
   }));
 
-  const currentStore = formattedItems.find(item => item.value === params.storeId);
+  const currentStore = formattedItems.find(item => item.value === params.store_id);
 
   const onStoreSelect = (store: { value: string, label: string }) => {
     setOpen(false);

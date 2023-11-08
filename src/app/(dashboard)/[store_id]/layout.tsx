@@ -11,7 +11,7 @@ const DashboardLayout = async ({
   params,
 }: {
   children: ReactNode;
-  params: { storeId: string };
+  params: { store_id: string };
 }) => {
   const { userId } = auth();
 
@@ -20,7 +20,7 @@ const DashboardLayout = async ({
   const { data: storeData, error: storeError } = await wrapInObject<Store>(
     prismaDb.store.findFirst({
       where: {
-        id: params.storeId,
+        id: params.store_id,
         userId,
       },
     }),

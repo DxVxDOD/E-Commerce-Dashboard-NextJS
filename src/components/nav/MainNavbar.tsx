@@ -10,15 +10,14 @@ const MainNavbar = (className: HTMLAttributes<HTMLElement>) => {
   const params = useParams();
   const routes = [
     {
-      href: `/${params.storeId}/settings`,
+      href: `/${params.store_id}/settings`,
       label: "Settings",
-      active: pathName === `/${params.storeId}/settings`,
+      active: pathName === `/${params.store_id}/settings`,
     },
   ];
 
   return (
     <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)}>
-      [
       {routes.map((route) => (
         <Link
           href={route.href}
