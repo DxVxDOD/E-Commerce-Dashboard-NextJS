@@ -7,15 +7,15 @@ import { TStorePersonDetails } from "@/types/store";
 export const POST = async (req: Request) => {
   const { userId } = auth();
 
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   const { data: reqData, error: reqError } = await wrapInObject<TStorePersonDetails>(req.json());
 
   if (reqError) {
     console.log("[STORE_POST]", reqError);
     return new NextResponse("Internal error", { status: 500 });
-  }
-
-  if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
   }
 
   const name = reqData?.name;
