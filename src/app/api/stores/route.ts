@@ -11,7 +11,8 @@ export const POST = async (req: Request) => {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { data: reqData, error: reqError } = await wrapInObject<TStorePersonDetails>(req.json());
+  const { data: reqData, error: reqError } =
+    await wrapInObject<TStorePersonDetails>(req.json());
 
   if (reqError) {
     console.log("[STORE_POST]", reqError);

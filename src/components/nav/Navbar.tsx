@@ -6,18 +6,19 @@ import { wrapInObject } from "@/lib/promiseWrap";
 import { Store } from ".prisma/client";
 
 const Navbar = async () => {
-
   const { userId } = auth();
 
-  if(!userId) redirect('/sign-in');
+  if (!userId) redirect("/sign-in");
 
-  const { data: storesData, error: storesError } = await wrapInObject<Store[]>(prisma?.store.findMany({
-    where: {
-      userId
-    }
-  }))
+  const { data: storesData, error: storesError } = await wrapInObject<Store[]>(
+    prisma?.store.findMany({
+      where: {
+        userId,
+      },
+    }),
+  );
 
-  if (storesError) console.log(storesError)
+  if (storesError) console.log(storesError);
 
   return (
     <section className={"border-b border-black"}>

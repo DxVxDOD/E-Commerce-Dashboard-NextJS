@@ -8,32 +8,33 @@ import { Store } from ".prisma/client";
 
 type SettingsPageProps = {
   params: {
-    store_id: string
-  }
-}
+    store_id: string;
+  };
+};
 
-const Page: FC<SettingsPageProps> = async ({params}) => {
-
+const Page: FC<SettingsPageProps> = async ({ params }) => {
   const { userId } = auth();
 
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect("/sign-in");
 
-  const { data: storeData, error: storeError } = await wrapInObject<Store>(prismaDb.store.findFirst({
-    where: {
-      id: params.store_id,
-      userId
-    }
-  }));
+  const { data: storeData, error: storeError } = await wrapInObject<Store>(
+    prismaDb.store.findFirst({
+      where: {
+        id: params.store_id,
+        userId,
+      },
+    }),
+  );
 
-  if (storeError) redirect('/');
+  if (storeError) redirect("/");
 
   return (
-    <div className={'flex-col'} >
-      <div className={'flex-1 space-y-4 p-8 pt-6'} >
+    <div className={"flex-col"}>
+      <div className={"flex-1 space-y-4 p-8 pt-6"}>
         <SettingsForm initialData={storeData!} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

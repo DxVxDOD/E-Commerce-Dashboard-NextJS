@@ -18,7 +18,7 @@ const MainNavbar = (className: HTMLAttributes<HTMLElement>) => {
       href: `/${params.store_id}`,
       label: "Overview",
       active: pathName === `/${params.store_id}`,
-    }
+    },
   ];
 
   return (
