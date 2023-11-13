@@ -12,9 +12,22 @@ generator client {
 }
 
 model Store {
+  id         String      @id @default(uuid())
+  name       String
+  userId     String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Billboards Billboard[] @relation("StoreToBillboard")
+}
+
+model Billboard {
   id        String   @id @default(uuid())
-  name      String
-  userId    String
+  store_id  String
+  store     Store    @relation("StoreToBillboard", fields: [store_id], references: [id])
+  label     String
+  imageUrl  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([store_id])
 }

@@ -4,7 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ReduxProvider from "@/redux/Provider";
 import ModalProvider from "@/providers/ModalProvider";
-import prismadb from "@/lib/prismadb";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +24,9 @@ export default function RootLayout({
         <body className={"h-screen w-screen"}>
           <ReduxProvider>
             <ModalProvider />
+            <Toaster
+              reverseOrder={false}
+              position={"top-center"}/>
             {children}
           </ReduxProvider>
         </body>

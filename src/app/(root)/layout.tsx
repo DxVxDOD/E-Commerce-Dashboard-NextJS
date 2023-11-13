@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { wrapInObject } from "@/lib/promiseWrap";
 import prismaDb from "@/lib/prismadb";
 import { Store } from ".prisma/client";
+import { Toaster } from "react-hot-toast";
 
 const SetupLayout = async ({ children }: { children: ReactNode }) => {
   const { userId } = auth();
@@ -22,7 +23,11 @@ const SetupLayout = async ({ children }: { children: ReactNode }) => {
 
   if (storeData) redirect(`/${storeData.id}`);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+    </>
+  );
 };
 
 export default SetupLayout;
