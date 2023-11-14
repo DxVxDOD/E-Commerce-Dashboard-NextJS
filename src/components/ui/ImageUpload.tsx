@@ -56,8 +56,10 @@ const ImageUpload: FC<ImageUploadProps> = ({ disabled, onChange, onRemove, value
             onClick={onClick}
             >
               <ImagePlus className={'h-4 w-4 mr-2s'} />
+              Upload an image
             </Button>
           )
+        }
         }
       </CldUploadWidget>
     </div>

@@ -24,6 +24,7 @@ import AlertModals from "@/components/modals/AlertModals";
 import { useOrigin } from "@/hooks/useOrigin";
 import { toast } from "react-hot-toast";
 import { Billboard } from "@prisma/client";
+import ImageUpload from "@/components/ui/ImageUpload";
 
 type BillboardFormProps = {
   initialData: Billboard | null;
@@ -35,7 +36,7 @@ const formSchema = z.object({
 });
 
 type TBillboardFormValue = z.infer<typeof formSchema>;
-const SettingsForm: FC<BillboardFormProps> = ({ initialData }) => {
+const BillboardForm: FC<BillboardFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -58,33 +59,50 @@ const SettingsForm: FC<BillboardFormProps> = ({ initialData }) => {
   const onSubmit = async (data: TBillboardFormValue) => {
     setLoading(true);
 
-    const { data: patchData, error: patchError } = await wrapInObject(
-      axios.patch(`/api/stores/${params.store_id}`, data),
-    );
-    router.refresh();
-    toast.success('Store successfully created!')
+    if(initialData) {
 
-    console.log(patchData);
+      const { data: patchData, error: patchError } = await wrapInObject(
+        axios.patch(`/api/${params.store_id}/billboards/${params.billboard_id}`, data),
+      );
+
+      if (patchError) {
+        console.log(patchError);
+      }
+
+      router.refresh();
+      toast.success('Store successfully updated!');
+
+      setLoading(false);
+    }
+    const { data: patchData, error: patchError } = await wrapInObject(
+        axios.post(`/api/${params.store_id}/billboards`, data),
+    );
 
     if (patchError) {
       console.log(patchError);
     }
 
+    router.refresh();
+    toast.success(toastMessage);
+
     setLoading(false);
   };
 
   const onDelete = async () => {
+
     setLoading(true);
+
     const { data: deleteData, error: deleteError } = await wrapInObject(
-      axios.delete(`/api/stores/${params.store_id}`),
-    );
+      axios.delete(`/api/${params.store_id}/billboards/${params.billboard_id}`),
+
+      );
     router.refresh();
     router.push("/");
-    toast.success('Store successfully deleted!');
+    toast.success('Billboard successfully deleted!');
 
     if (deleteData) {
       console.log(deleteError);
-      toast.error(deleteError)
+      toast.error('Make sure you removed all categories using this billboard first!')
     }
 
     setLoading(false);
@@ -119,6 +137,19 @@ const SettingsForm: FC<BillboardFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className={"space-y-8 w-full"}
         >
+          <FormField
+            name={"imageUrl"}
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Background Image</FormLabel>
+                <FormControl>
+                 <ImageUpload disabled={loading} onChange={url => field.onChange(url)} onRemove={() => field.onChange('')} values={field.value ? [field.value] : []} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className={"grid grid-cols-3 gap-8"}>
             <FormField
               name={"label"}
@@ -148,4 +179,4 @@ const SettingsForm: FC<BillboardFormProps> = ({ initialData }) => {
   );
 };
 
-export default SettingsForm;
+export default BillboardForm;
